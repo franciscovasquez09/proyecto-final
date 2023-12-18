@@ -51,7 +51,7 @@ class Residente(Persona):
     db_table = "residentes"
 
   def __str__(self):
-    return str(self.numero_casa)
+    return str(self.nombre + ' - ' + self.rut)
   
 class TipoVehiculo(models.Model):
   nombre = models.CharField(max_length=100)

@@ -68,11 +68,9 @@ class VehiculoForm(forms.ModelForm):
             'residente': 'Residente',
             'patente': 'Patente',
             'tipo_vehiculo': 'Tipo de Vehículo',
-            
         }
         widgets = {
-            'residente': AutocompleteSelect(Vehiculo._meta.get_field('residente').remote_field, admin.site, attrs={'placeholder': 'seleccionar'})  
-        
+            'residente': AutocompleteSelect(Vehiculo._meta.get_field('residente').remote_field, admin.site, attrs={'placeholder': 'seleccionar'})   
         }
 
     def clean_patente(self):
