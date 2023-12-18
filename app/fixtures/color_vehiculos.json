@@ -80,7 +80,7 @@
     "model": "app.colorvehiculo",
     "pk": 15,
     "fields": {
-      "nombre": "Celeste"
+      "nombre": "Amarillo"
     }
   },
   {
