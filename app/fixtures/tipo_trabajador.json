@@ -1,0 +1,17 @@
+[
+    {
+      "model": "app.tipotrabajador",
+      "pk": 1,
+      "fields": {
+        "nombre": "Administrador"
+      }
+    },
+    {
+      "model": "app.tipotrabajador",
+      "pk": 2,
+      "fields": {
+        "nombre": "Usuario"
+      }
+    }
+  ]
+    

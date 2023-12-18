@@ -1,0 +1,72 @@
+[
+  {
+    "model": "app.modelovehiculo",
+    "pk": 1,
+    "fields": {
+      "nombre": "Alto"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 2,
+    "fields": {
+      "nombre": "Corolla"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 3,
+    "fields": {
+      "nombre": "Morning"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 4,
+    "fields": {
+      "nombre": "Ecosport"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 5,
+    "fields": {
+      "nombre": "Civic"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 6,
+    "fields": {
+      "nombre": "Spark"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 7,
+    "fields": {
+      "nombre": "Artis"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 8,
+    "fields": {
+      "nombre": "March"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 9,
+    "fields": {
+      "nombre": "Palio"
+    }
+  },
+  {
+    "model": "app.modelovehiculo",
+    "pk": 10,
+    "fields": {
+      "nombre": "Yaris"
+    }
+  }
+]

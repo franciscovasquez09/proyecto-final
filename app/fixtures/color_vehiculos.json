@@ -1,0 +1,93 @@
+[
+  {
+    "model": "app.colorvehiculo",
+    "pk": 1,
+    "fields": {
+      "nombre": "Rojo"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 2,
+    "fields": {
+      "nombre": "Azul"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 3,
+    "fields": {
+      "nombre": "Negro"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 4,
+    "fields": {
+      "nombre": "Blanco"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 5,
+    "fields": {
+      "nombre": "Gris"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 6,
+    "fields": {
+      "nombre": "Verde"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 7,
+    "fields": {
+      "nombre": "Amarillo"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 8,
+    "fields": {
+      "nombre": "Naranjo"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 10,
+    "fields": {
+      "nombre": "Plateado"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 11,
+    "fields": {
+      "nombre": "Morado"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 14,
+    "fields": {
+      "nombre": "Turquesa"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 15,
+    "fields": {
+      "nombre": "Celeste"
+    }
+  },
+  {
+    "model": "app.colorvehiculo",
+    "pk": 16,
+    "fields": {
+      "nombre": "Platino"
+    }
+  }
+]

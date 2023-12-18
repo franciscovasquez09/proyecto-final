@@ -1,0 +1,26 @@
+[
+  {
+    "model": "app.ciudad",
+    "pk": 1,
+    "fields": {
+      "nombre": "Puerto Octay"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 2,
+    "fields": {
+      "nombre": "Puerto Montt"
+  
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 3,
+    "fields": {
+      "nombre": "San Pablo"
+    
+    }
+  }
+]

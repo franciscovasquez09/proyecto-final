@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h2 class="mb-0" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Registro de Acceso</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" action="{% url 'registro_acceso' %}" class="form">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              {{ form.residente.label_tag }}
+              {{ form.residente }}
+            </div>
+            
+            <div class="mb-3">
+              {{ form.fecha_hora_ingreso.label_tag }}
+              {{ form.fecha_hora_ingreso }}
+            </div>
+            
+            <div class="mb-3">
+              {{ form.fecha_hora_salida.label_tag }}
+              {{ form.fecha_hora_salida }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary mt-3 w-full" style="background-color: #3490dc;">Agregar Registro de Acceso</button>
+          </form>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'residentes' %}" class="btn btn-secondary float-start">
+            Volver a la lista de registros de acceso
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+ 
+  {% load bootstrap_icons %}
+ 
+  <div class="intro-y flex flex-row items-center my-8 justify-end">
+    <div class="w-auto flex mt-4">
+      <a href="{% url 'add_trabajador' %}" type="button"
+        class="text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+        Agregar trabajador
+      </a>
+    </div>
+  </div>
+
+  <div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        {% if error_message %}
+          <div class="overflow-x-auto mb-4">
+            <div class="bg-red-500 border-t border-b border-red-900 text-white px-4 py-3 rounded-md" role="alert">
+              <p class="font-bold">{{error_message}}.</p>
+            </div>
+          </div>
+        {% endif %}
+        {% if residentes %}
+          <table class="min-w-full bordered rounded-md">
+            <thead class="border-b uppercase bg-gray-900 text-white">
+              <tr>
+                <th scope="col" class="text-sm font-large px-6 py-4 text-left">
+                  Rut
+                </th>
+                <!-- Agrega las otras columnas según tus necesidades -->
+                <th scope="col" class="text-sm font-large px-6 py-4 text-left">
+                  Acción
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for r in residentes %}
+                <tr class="border-b border-gray-300 bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{r.rut}}
+                  </td>
+                  <!-- Agrega las otras celdas según tus necesidades -->
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <a type="button" href="{% url 'update_trabajador' r.id %}"
+                      class="flex text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center mr-2 mb-2 align-middle w-24">Editar
+                      {% bs_icon 'pencil' extra_classes='ml-1' %}
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+
+              <script>
+                history.pushState(null, null, document.URL);
+                window.addEventListener('popstate', function () {
+                    history.pushState(null, null, document.URL);
+                });
+        
+                // Deshabilitar el botón de avance
+                window.onbeforeunload = function() { return false; };
+            </script>
+            
+            <script>
+              history.pushState(null, null, document.URL);
+              window.addEventListener('popstate', function () {
+                  history.pushState(null, null, document.URL);
+              });
+            </script>
+
+            </tbody>
+          </table>
+        {% else %}
+          <div class="overflow-x-auto">
+            <div class="bg-blue-200 border border-blue-500 text-blue-700 px-4 py-3 rounded-md" role="alert">
+              <p class="font-bold text-xl flex items-center">
+                {% bs_icon 'info-circle' size='24px' extra_classes='mr-1' %}
+                Aún no ha agregado trabajador</p>
+              <span>Por favor, ingrese un trabajador.</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

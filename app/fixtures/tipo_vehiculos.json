@@ -1,0 +1,23 @@
+[
+  {
+    "model": "app.tipovehiculo",
+    "pk": 1,
+    "fields": {
+      "nombre": "Residente"
+    }
+  },
+  {
+    "model": "app.tipovehiculo",
+    "pk": 2,
+    "fields": {
+      "nombre": "Visita"
+    }
+  },
+  {
+    "model": "app.tipovehiculo",
+    "pk": 3,
+    "fields": {
+      "nombre": "Emergencia"
+    }
+  }
+]

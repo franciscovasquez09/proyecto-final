@@ -1,0 +1,142 @@
+[
+  {
+    "model": "app.marcavehiculo",
+    "pk": 1,
+    "fields": {
+      "nombre": "Toyota"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 2,
+    "fields": {
+      "nombre": "Ford"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 3,
+    "fields": {
+      "nombre": "Honda"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 4,
+    "fields": {
+      "nombre": "Chevrolet"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 5,
+    "fields": {
+      "nombre": "Nissan"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 6,
+    "fields": {
+      "nombre": "Volkswagen"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 7,
+    "fields": {
+      "nombre": "Hyundai"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 8,
+    "fields": {
+      "nombre": "Mazda"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 9,
+    "fields": {
+      "nombre": "Mercedes-Benz"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 10,
+    "fields": {
+      "nombre": "BMW"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 11,
+    "fields": {
+      "nombre": "Audi"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 12,
+    "fields": {
+      "nombre": "Kia"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 13,
+    "fields": {
+      "nombre": "Subaru"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 14,
+    "fields": {
+      "nombre": "Tesla"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 15,
+    "fields": {
+      "nombre": "Jaguar"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 16,
+    "fields": {
+      "nombre": "MG"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 17,
+    "fields": {
+      "nombre": "Lexus"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 18,
+    "fields": {
+      "nombre": "Porsche"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 19,
+    "fields": {
+      "nombre": "Fiat"
+    }
+  },
+  {
+    "model": "app.marcavehiculo",
+    "pk": 20,
+    "fields": {
+      "nombre": "Otro"
+    }
+  }
+]

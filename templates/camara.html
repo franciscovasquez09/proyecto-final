@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAFESTYLE</title>
+    <!-- Agrega tus otros elementos head aquí -->
+
+    <!-- Importa el estilo de Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
+
+    {% load tailwind_tags %}
+    {% load bootstrap_icons %}
+    {% load static %}
+    {% tailwind_preload_css %} {% tailwind_css %}
+</head>
+
+<body class="bg-slate-100">
+    {% include 'components/sidebar.html' %}
+
+    <div class="lg:pl-64 h-screen w-full flex flex-col">
+        
+            <div class="container">
+
+                <video id="video" autoplay width="640" height="480" ></video>
+                <canvas id="canvas" width="640" height="480"></canvas>
+                <button type="button" id="capturar">Capturar Foto</button>
+            </div>
+    
+    </div>
+
+    <!-- Incluye los scripts JavaScript -->
+    <script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'admin/js/vendor/select2/select2.full.js' %}"></script>
+    <script src="{% static 'admin/js/jquery.init.js' %}"></script>
+    <script src="{% static 'admin/js/autocomplete.js' %}"></script>
+     
+    <script>
+        const video = document.querySelector('video');
+        const constraints = {
+            video: true,
+            audio: false
+        };
+        document.addEventListener('DOMContentLoaded', (event) => {
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                video.srcObject = stream;
+            });
+        });
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const capturar = document.getElementById("capturar");
+        capturar.addEventListener("click", function() {
+            context.drawImage(video, 0, 0, 500, 500);
+            // blob file
+            canvas.toBlob(function(blob) {
+                sendFile(blob)
+            });
+        });
+        function sendFile(file) {
+            const formdata = new FormData();
+            formdata.append("file", file);
+            const requestOptions = {
+                method: 'POST',
+                body: formdata,
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+            };
+            fetch("http://127.0.0.1:8000/procesar_imagen/", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        }
+
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+         return cookieValue;
+}
+
+    </script>
+        
+
+    
+</body>
+
+</html>
+

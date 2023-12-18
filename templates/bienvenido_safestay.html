@@ -1,0 +1,71 @@
+{% load bootstrap_icons %}
+
+<nav>
+  <span class="absolute rounded-md top-6 text-2xl cursor-pointer left-4 sm:left-20 md:left-36 lg:hidden" onclick="Openbar()">
+    {% bs_icon 'list' color='black' size='1.8em' %}
+  </span>
+  <div class="sidebar fixed top-0 bottom-0 lg:left-0 -left-64 duration-300 p-2 w-64 overflow-y-auto text-center bg-gray-900 shadow h-screen z-50 peer">
+    <div class="text-gray-100 text-xl">
+      <div class="p-2.5 mt-1 flex items-center rounded-md">
+        <i class="bg-blue-500 rounded-lg">
+          {% bs_icon 'app-indicator' size='1.4em' %}
+        </i>
+        <h1 class="text-[14px] ml-3 text-xl text-gray-200 font-bold">SAFESTYLE</h1>
+        <i class="cursor-pointer lg:hidden ml-3" onclick="Openbar()">
+          {% bs_icon 'x' size='1.4em' %}
+        </i>
+      </div>
+      <hr class="my-2 text-gray-600" />
+
+      <div>
+        {% with request.resolver_match.url_name as url_name %}
+          <a href="{% url 'residentes' %}"
+             class="{% if url_name == 'residentes' or url_name == 'add_residente' or url_name == 'update_residente' %} bg-blue-600 {% endif %} p-2.5 mt-2 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+            {% bs_icon 'person-gear' size='1.0em' %}
+            <span class="text-[15px] ml-4 text-gray-200">Residentes</span>
+          </a>
+          <a href="{% url 'vehiculos' %}"
+             class="{% if url_name == 'vehiculos' or url_name == 'add_vehiculo' or url_name == 'update_vehiculo' %} bg-blue-600 {% endif %} p-2.5 mt-2 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+            {% bs_icon 'car-front' size='1.0em' %}
+            <span class="text-[15px] ml-4 text-gray-200">Vehiculos</span>
+          </a>
+          <a href="{% url 'registro_acceso' %}">
+            <hr class="my-4 text-gray-600"/>
+            <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+              {% bs_icon 'book' size='1.0em' %}
+              <span class="text-[15px] ml-4 text-gray-200">Registros Acceso</span>
+            </div>
+          </a>
+          <a href="{% url 'trabajadores' %}">
+            <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+              {% bs_icon 'person-check' size='1.0em' %}
+              <span class="text-[15px] ml-4 text-gray-200">Administrador</span>
+            </div>
+          </a>
+          <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+            <a href="{% url 'vista_camara' %}">
+              {% bs_icon 'camera' size='1.0em' %}
+              <span class="text-[15px] ml-4 text-gray-200">Cámaras</span>
+            </a>
+          </div>
+          <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-150 cursor-pointer hover:bg-gray-800">
+            <a href="{% url 'login_view' %}">
+              {% bs_icon 'box-arrow-in-right' size='1.0em' %}
+              <span class="text-[15px] ml-4 text-gray-200">Cerrar sesión</span>
+            </a>
+          </div>
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function Openbar() {
+      document.querySelector('.sidebar').classList.toggle('duration-300')
+      document.querySelector('.sidebar').classList.toggle('-left-64')
+    }
+  </script>
+</nav>
+
+
+
