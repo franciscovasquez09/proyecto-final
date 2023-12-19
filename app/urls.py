@@ -14,7 +14,7 @@ urlpatterns = [
   #residente paths
   path('add_residente',add_residente,name='add_residente'),
   path('update_residente/<str:rut>',update_residente,name='update_residente'),
-  path('delete_residente/<int:id>',delete_residente,name='delete_residente'),
+  path('delete_residente/<str:rut>',delete_residente,name='delete_residente'),
 
   #vehiculo paths
   path('vehiculos',vehiculos,name='vehiculos'),

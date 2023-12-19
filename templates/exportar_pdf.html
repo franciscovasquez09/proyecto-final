@@ -25,7 +25,7 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
         th {
@@ -47,9 +47,9 @@
             <tbody>
                 {% for vehiculo in vehiculos %}
                 <tr>
-                    <td>{{ vehiculo.residente or vehiculo.tipo_vehiculo }}</td>
-                    <td>{{ vehiculo.patente }}</td>
-                    <td>{{ vehiculo.marca }} {{ vehiculo.modelo }} {{ vehiculo.color }}</td>
+                    <td>{{ vehiculo.residente|default:'' }}{{ vehiculo.tipo_vehiculo|default:'' }}</td>
+                    <td>{{ vehiculo.patente|default:'' }}</td>
+                    <td>{{ vehiculo.marca|default:'' }} {{ vehiculo.modelo|default:'' }} {{ vehiculo.color|default:'' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
