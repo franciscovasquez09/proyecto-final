@@ -1,37 +1,91 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .card {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 80vh; /* Establecer la altura al 80% de la altura de la ventana */
+  }
+
+  .card-header {
+    background-color: #007bff;
+    border-radius: 8px 8px 0 0;
+    color: white;
+    text-align: center;
+  }
+
+  .card-body {
+    padding: 20px;
+    height: calc(100% - 140px); /* Ajustar la altura del cuerpo según el contenido */
+    overflow-y: auto; /* Agregar desplazamiento vertical si es necesario */
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: #495057;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    width: 100%;
+  }
+
+  .btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+  }
+</style>
+
+<div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="card">
-        <div class="card-header bg-primary text-white text-center">
-          <h2 class="mb-0" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Registro de Acceso</h2>
+        <div class="card-header">
+          <h2 class="mb-0">Registro de Acceso</h2>
         </div>
         <div class="card-body">
           <form method="post" action="{% url 'registro_acceso' %}" class="form">
             {% csrf_token %}
-            
+            <h3 class="mb-4 text-center">Nuevo Registro de Acceso</h3>
+
             <div class="mb-3">
-              {{ form.residente.label_tag }}
+              <label for="{{ form.residente.id_for_label }}" class="form-label">Residente</label>
               {{ form.residente }}
             </div>
             
             <div class="mb-3">
-              {{ form.fecha_hora_ingreso.label_tag }}
+              <label for="{{ form.fecha_hora_ingreso.id_for_label }}" class="form-label">Fecha y Hora de Ingreso</label>
               {{ form.fecha_hora_ingreso }}
             </div>
             
             <div class="mb-3">
-              {{ form.fecha_hora_salida.label_tag }}
+              <label for="{{ form.fecha_hora_salida.id_for_label }}" class="form-label">Fecha y Hora de Salida</label>
               {{ form.fecha_hora_salida }}
             </div>
             
-            <button type="submit" class="btn btn-primary mt-3 w-full" style="background-color: #3490dc;">Agregar Registro de Acceso</button>
+            <button type="submit" class="btn btn-primary">Agregar Registro de Acceso</button>
           </form>
         </div>
-        <div class="card-footer">
-          <a href="{% url 'residentes' %}" class="btn btn-secondary float-start">
+        <div class="card-footer text-center">
+          <a href="{% url 'residentes' %}" class="btn btn-secondary">
             Volver a la lista de registros de acceso
           </a>
         </div>
@@ -40,3 +94,4 @@
   </div>
 </div>
 {% endblock %}
+

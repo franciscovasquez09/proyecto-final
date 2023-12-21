@@ -22,5 +22,77 @@
       "nombre": "San Pablo"
     
     }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 1,
+    "fields": {
+      "nombre": "Rio Bueno"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 2,
+    "fields": {
+      "nombre": "La Union"
+  
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 3,
+    "fields": {
+      "nombre": "Purranque"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 1,
+    "fields": {
+      "nombre": "Valdivia"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 2,
+    "fields": {
+      "nombre": "Frutillar"
+  
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 3,
+    "fields": {
+      "nombre": "Puerto Varas"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 1,
+    "fields": {
+      "nombre": "Temuco"
+    
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 2,
+    "fields": {
+      "nombre": "Ancud"
+  
+    }
+  },
+  {
+    "model": "app.ciudad",
+    "pk": 3,
+    "fields": {
+      "nombre": "Casma"
+    
+    }
   }
 ]

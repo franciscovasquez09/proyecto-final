@@ -88,7 +88,7 @@ class ColorVehiculo(models.Model):
     return self.nombre
 
 class Vehiculo(models.Model):
-  patente = models.CharField(max_length=10)
+  patente = models.CharField(max_length=10, unique= True)
   residente = models.ForeignKey(Residente, to_field='rut', on_delete=models.CASCADE)
   tipo_vehiculo = models.ForeignKey(TipoVehiculo, on_delete=models.CASCADE)
   marca = models.ForeignKey(MarcaVehiculo, on_delete=models.CASCADE)

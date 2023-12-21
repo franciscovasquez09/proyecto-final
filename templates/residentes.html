@@ -6,6 +6,19 @@
     class="text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
     Agregar Residente
   </a>
+  <a type="button" href="{% url 'exportar_pdf_residente' %}"
+  class="text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">PDF
+</a>
+<input type="text" id="query" name="query" placeholder="Escribe para buscar..." value="{{ query }}">
+    </div>
+  </div>
+
+  <!-- Agrega una sección para mostrar los resultados de la búsqueda -->
+  <div id="resultados-container">
+    {% for residente in resultados %}
+      <div>{{ residente.rut }}</div>
+      <!-- Agrega otros campos que desees mostrar -->
+    {% endfor %}
   </div>
 </div>
 
@@ -81,11 +94,15 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {{r.ciudad}}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <td class="px-6 py-4 flex items-center text-sm font-medium text-white">
               <a type="button" href="{% url 'update_residente' r.rut %}"
-                class="flex text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center mr-2 mb-2 align-middle w-24">Editar
-                {% bs_icon 'pencil' extra_classes='ml-1' %}
-              </a>
+              class="bg-blue-500 rounded-md hover:bg-blue-800 p-2 mr-2">
+              {% bs_icon 'pencil' extra_classes='' size='20px' %}
+            </a>
+            <button class="bg-red-500 rounded-md hover:bg-red-700 p-2"
+              onclick="toggleModal('modal-id', '{% url 'delete_residente' r.rut %}')">
+              {% bs_icon 'trash' extra_classes='' size='20px' %}
+            </button>
             </td>
           </tr>
           {% endfor %}
@@ -101,8 +118,28 @@
         </div>
       </div>
       {% endif %}
+      {% include 'components/deletemodal.html' %}
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#query').on('input', function() {
+        // Realiza una petición AJAX cuando se escribe en el campo de búsqueda
+        $.ajax({
+          type: 'GET',
+          url: window.location.href,  // La URL actual de la página
+          data: { query: $(this).val() },
+          success: function(data) {
+            // Actualiza los resultados sin recargar la página
+            $('#resultados-container').html(data);
+          }
+        });
+      });
+    });
+  </script>
+
 
 {% endblock %}

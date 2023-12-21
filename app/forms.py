@@ -56,10 +56,22 @@ class ResidenteForm(forms.ModelForm):
         if numero_casa < 0 or numero_casa > 9999:
             raise forms.ValidationError('El número de casa no es válido.')
         return numero_casa
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        patentes = cleaned_data.get('patentes', [])
+        
+        # Limitar la cantidad máxima de patentes
+        max_patentes = 4
 
+        # Verificar si se ha excedido el límite
+        if len(patentes) > max_patentes:
+            raise forms.ValidationError(f"No se pueden agregar más de {max_patentes} patentes.")
+
+        return cleaned_data
 
 class VehiculoForm(forms.ModelForm):
-    PATENTE_REGEX = r'^[A-Za-z]{4}\d{2}$'
+    PATENTE_REGEX = r'^[A-Za-z]{2}-[A-Za-z]{2}\*\d+$'
 
     class Meta:
         model = Vehiculo

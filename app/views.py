@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.shortcuts import get_object_or_404
+import requests
 from .models import Residente,Vehiculo, Trabajador, TipoTrabajador
 from .forms import ResidenteForm, VehiculoForm, RegistroAccesoForm, TrabajadorForm
 from django.db.models import ProtectedError
@@ -22,10 +23,12 @@ def index(request):
   return render(request,'residentes.html')
 
 # Residentes Views
+@login_required
 def residentes(request):
   residentes = Residente.objects.all()
   return render (request,'residentes.html',{"residentes":residentes})
 
+@login_required
 def add_residente(request):
   actionMessage = "Registrar Residente"
   form = ResidenteForm()
@@ -36,6 +39,7 @@ def add_residente(request):
       return redirect(residentes)
   return render(request, 'components/crispyform.html', {"form": form,"title":actionMessage})
 
+@login_required
 def update_residente(request, rut):
     actionMessage = "Actualizar Residente"
     residente = get_object_or_404(Residente, rut=rut)
@@ -47,17 +51,49 @@ def update_residente(request, rut):
             return redirect(residentes)
     return render(request, 'components/crispyform.html', {"form": form, "title": actionMessage, "residenteId": id})
 
-def delete_residente(request,id):
-  reservation = Residente.objects.get(id=id)
-  reservation.delete()
-  return redirect(residentes)
+@login_required
+def delete_residente(request, rut):
+    residente = get_object_or_404(Residente, rut=rut)
+    residente.delete()
+    return redirect(residentes)
 
+def exportar_pdf_residente(request, id=None):
+    # Obtener todos los vehículos si no se proporciona un ID
+    if id is None:
+        residentes = Residente.objects.all()
+    else:
+        # Obtener el objeto residente con el id proporcionado
+        residente = get_object_or_404(Residente, id=id)
+        # Crear una lista con un solo vehículo para poder iterar en el template
+        residentes = [residente]
+
+    # Crear el contexto con los datos de los vehículos
+    context = {'residentes': residentes}
+
+    # Renderizar el template HTML como PDF
+    template_path = 'pdf_residentes.html'  # Ruta al template HTML
+
+    # Crear una instancia de HttpResponse con el tipo de contenido PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="residentes.pdf"'
+
+    # Crear el PDF
+    template = get_template(template_path)
+    html = template.render(context)
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # Si el PDF se creó correctamente, devolver la respuesta
+    if pisa_status.err:
+        return HttpResponse('Error al generar el PDF', content_type='text/plain')
+    return response
 
 # Vehiculos Views
+@login_required
 def vehiculos(request):
   vehiculos = Vehiculo.objects.all()
   return render (request,'vehiculos.html',{"vehiculos":vehiculos})
 
+@login_required
 def add_vehiculo(request):
   actionMessage = "Registrar Vehiculo"
   form = VehiculoForm()
@@ -68,6 +104,7 @@ def add_vehiculo(request):
       return redirect(vehiculos)
   return render(request, 'components/crispyform.html', {"form": form,"title":actionMessage})
 
+@login_required
 def update_vehiculo(request,id):
   actionMessage = "Actualizar Vehiculo"
   vehiculo = Vehiculo.objects.get(id=id)
@@ -80,8 +117,8 @@ def update_vehiculo(request,id):
   return render(request, 'components/crispyform.html', {"form": form,"title":actionMessage, "vehiculoId":id})
 
 def delete_vehiculo(request,id):
-  reservation = Vehiculo.objects.get(id=id)
-  reservation.delete()
+  vehiculo = get_object_or_404(Vehiculo, id=id)
+  vehiculo.delete()
   return redirect(vehiculos)
 
 def registro_acceso(request):
@@ -136,36 +173,48 @@ def salir(request):
     # Redirecciona a la página que desees después de cerrar sesión
     return redirect('login_view')
 
+def formatear_patente(patente):
+    if len(patente) == 6:
+        return f'{patente[:2]}-{patente[2:4]}*{patente[4:6]}'.upper()
+    else:
+        return patente
+
 def procesar_imagen(request):
     if request.method == 'POST':
-        # Obtén el archivo del formulario
         archivo = request.FILES.get('file', None)
-
         if archivo is None:
             return JsonResponse({'error': 'No se envió ningún archivo'}, status=400)
 
-        # Lee el archivo en un array de bytes
-        img_data = archivo.read()
+        # Prepara los datos para enviar a Plate Recognizer
+        files = {'upload': archivo}
+        headers = {'Authorization': 'Token 3892c6ee8b698357efe7ff9664df6f98b6bb9c22'}
 
-        # Decodifica la matriz de bytes en una imagen de OpenCV
-        nparr = np.frombuffer(img_data, np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        # Realiza la solicitud a Plate Recognizer
+        response = requests.post('https://api.platerecognizer.com/v1/plate-reader/', files=files, headers=headers)
 
-        # Procesamiento de la imagen (puedes ajustarlo según tus necesidades)
-        img_grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        # Aplica OCR para obtener el texto de la patente
-        texto_patente = pytesseract.image_to_string(img_grayscale)
-        print(texto_patente)
-        if not texto_patente.strip():  # strip() elimina espacios en blanco al inicio y al final
-          return JsonResponse({'error': 'no se encontro patente'}, status=404)
-        # Consulta la base de datos para verificar si la patente existe
-        patente_existe = PatenteAutorizada.objects.filter(vehiculo__patente=texto_patente).exists()
-
-        # Devuelve la respuesta JSON
-        return JsonResponse({'patente_existe': patente_existe})
+        if response.status_code == 201:
+            data = response.json()
+            # Procesa los resultados como sea necesario
+            # Ejemplo: extraer la primera patente reconocida
+            patentes = [result['plate'] for result in data['results']]
+            primera_patente = patentes[0] if patentes else None
+           
+            if primera_patente:
+                primera_patente = formatear_patente(primera_patente)
+                  # Consulta la base de datos para verificar si la patente existe
+                patente_existe = PatenteAutorizada.objects.filter(vehiculo__patente=primera_patente).exists()
+                return JsonResponse({'patente': primera_patente, 'patente_existe': patente_existe})  # Modifica según sea necesario
+            else:
+                return JsonResponse({'error': 'No se encontró patente'}, status=404)
+        else:
+            return JsonResponse({'error': 'Error en el servicio de Plate Recognizer'}, status=response.status_code)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+def validar_formato_patente(texto):
+    # Implementa la lógica para validar el formato de la patente
+    # Por ejemplo, usar expresiones regulares para verificar el formato
+    return texto  # Modifica esto según tu validación
 
 def vista_camara(request):
     # Lógica de la vista de la cámara
@@ -175,20 +224,25 @@ def vista_camara(request):
 def bienvenido_safestay(request):
     return render(request, 'bienvenido_safestay.html')
 
+def exportar_pdf_vehiculo(request, id=None):
+    # Obtener todos los vehículos si no se proporciona un ID
+    if id is None:
+        vehiculos = Vehiculo.objects.all()
+    else:
+        # Obtener el objeto Vehiculo con el id proporcionado
+        vehiculo = get_object_or_404(Vehiculo, id=id)
+        # Crear una lista con un solo vehículo para poder iterar en el template
+        vehiculos = [vehiculo]
 
-def exportar_pdf_vehiculo(request, id):
-    # Obtener el objeto Vehiculo con el id proporcionado
-    vehiculo = get_object_or_404(Vehiculo, id=id)
-
-    # Crear el contexto con los datos del vehículo
-    context = {'vehiculo': vehiculo}
+    # Crear el contexto con los datos de los vehículos
+    context = {'vehiculos': vehiculos}
 
     # Renderizar el template HTML como PDF
-    template_path = 'exportar_pdf.html'  # Ruta al template HTML
+    template_path = 'pdf_vehiculos.html'  # Ruta al template HTML
 
     # Crear una instancia de HttpResponse con el tipo de contenido PDF
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="vehiculo_{id}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="vehiculos.pdf"'
 
     # Crear el PDF
     template = get_template(template_path)
@@ -199,3 +253,13 @@ def exportar_pdf_vehiculo(request, id):
     if pisa_status.err:
         return HttpResponse('Error al generar el PDF', content_type='text/plain')
     return response
+
+def buscar_residente(request):
+    # Obtén la consulta desde los parámetros GET
+    query = request.GET.get('query', '')
+
+    # Filtra los residentes según la consulta en el campo Rut
+    residentes = Residente.objects.filter(rut__startswith=query)
+
+    # Renderiza la vista con los resultados
+    return render(request, 'residentes.html', {'residentes': residentes, 'query': query})

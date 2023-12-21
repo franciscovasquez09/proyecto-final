@@ -1,11 +1,4 @@
 {% load bootstrap_icons %}
-
-{% if residenteId %}
-<a class="mt-4 sm:mt-8 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-md w-32 md:w-56 px-5 py-2.5 text-center cursor-pointer"
-  onclick="toggleModal('modal-id')">
-  Eliminar
-</a>
-{% endif %}
 <div
   class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center lg:pl-64"
   id="modal-id">
@@ -29,13 +22,11 @@
           Cancelar
         </button>
 
-        {% if residenteId %}
-        <a href="{% url 'delete_residente' residenteId %}"
+        <a id="btn-eliminar"
           class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="submit" onclick="toggleModal('modal-id')">
+          href="#" onclick="confirmDelete()">
           Eliminar
         </a>
-        {% endif %}
       </div>
     </div>
   </div>
@@ -43,10 +34,23 @@
 
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script type="text/javascript">
-  function toggleModal(modalID) {
-    document.getElementById(modalID).classList.toggle("hidden");
+  function confirmDelete() {
+    const btnEliminar = document.getElementById("btn-eliminar");
+    const deleteURL = btnEliminar.getAttribute("href");
+
+    // Execute the delete action
+    window.location.href = deleteURL;
+  }
+
+  function toggleModal(modalID, deleteURL = '') {
+    const modal = document.getElementById(modalID);
+    const btnEliminar = document.getElementById("btn-eliminar");
+    btnEliminar.setAttribute("href", deleteURL);
+
+    modal.classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-    document.getElementById(modalID).classList.toggle("flex");
+    modal.classList.toggle("flex");
     document.getElementById(modalID + "-backdrop").classList.toggle("flex");
   }
+
 </script>
